@@ -1,0 +1,26 @@
+#!/usr/bin/python
+
+import sys
+
+from todotxt import todotxt
+
+todotxt = todotxt()
+todotxt.read_file()
+
+if ( sys.argv[1] == 'due' ):
+    if ( len(sys.argv) == 3 ):
+        todotxt.show_dues(sys.argv[2])
+    else:
+        todotxt.show_dues()
+elif ( sys.argv[1] == 'prjs' ):
+    todotxt.show_prjs()
+elif ( sys.argv[1] == 'do' ):
+    todotxt.do_sth(sys.argv[2]) 
+elif ( sys.argv[1] == 'ls' ):
+    todotxt.show_tasks()
+elif ( sys.argv[1] == 'add' ):
+    task = ''
+    for i in range(2, len(sys.argv)):
+        task += sys.argv[i]+' '
+    print task
+    #todotxt.add_task(task)
