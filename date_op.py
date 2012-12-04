@@ -4,7 +4,7 @@ from datetime import date
 days_in_month = {1:31, 2:28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
 
 def add(__date, __year=None, __month=None, __day=None):
-    __date = datetime.datetime.strptime(__date, '%Y-%m-%d').date()
+    __date = get_date(__date) if ( not isinstance(__date, datetime.date) ) else __date
     if ( __year != None ):
         __date = __date.replace(year=__date.year+abs(int(__year)))
 
@@ -15,6 +15,7 @@ def add(__date, __year=None, __month=None, __day=None):
             __date = __date.replace(year=__date.year+1, month=__date.month+abs(int(__month))-12)
         else:
             __date = __date.replace(month=__date.month+abs(int(__month)))
+    
     if ( __day != None ):
         if ( abs(int(__day)) > 28 ):
             __day = 28
@@ -29,8 +30,9 @@ def add(__date, __year=None, __month=None, __day=None):
     return datetime.datetime.strftime(__date, '%Y-%m-%d')
 
 def compare(__date1, __date2):
-    __date1 = datetime.datetime.strptime(__date1, '%Y-%m-%d').date()
-    __date2 = datetime.datetime.strptime(__date2, '%Y-%m-%d').date()
+    __date1 = get_date(__date1) if ( not isinstance(__date1, datetime.date) ) else __date1
+    __date2 = get_date(__date2) if ( not isinstance(__date2, datetime.date) ) else __date2
+
     if ( __date1 < __date2 ):
         return -1
     elif ( __date1 == __date2 ):
@@ -47,8 +49,14 @@ def equal_today(__date):
 def after_today(__date):
     return True if ( compare_today(__date) == 1) else False
 
+def today():
+    return date.today()
+
+def get_date(__date):
+    return datetime.datetime.strptime(__date, '%Y-%m-%d').date()
+
 def compare_today(__date):
-    return compare(__date, datetime.datetime.strftime(date.today(), '%Y-%m-%d'))
+    return compare(__date, date.today())
 
 def within(__year=None, __month=None, __day=None):
-    return add(datetime.datetime.strftime(date.today(), '%Y-%m-%d'), __year, __month, __day)
+    return add(date.today(), __year, __month, __day)
