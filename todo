@@ -13,7 +13,14 @@ if ( sys.argv[1] == 'due' ):
     else:
         todotxt.show_dues()
 elif ( sys.argv[1] == 'prjs' ):
-    todotxt.show_prjs()
+    prjs = None
+    operator = None
+    if ( len(sys.argv) > 2 ):
+        prjs = set()
+        for prj in range(2, len(sys.argv)):
+            prjs.add(sys.argv[prj])
+        operator = 'union'
+    todotxt.show_prjs(prjs, operator)
 elif ( sys.argv[1] == 'do' ):
     todotxt.do_sth(sys.argv[2]) 
 elif ( sys.argv[1] == 'ls' ):

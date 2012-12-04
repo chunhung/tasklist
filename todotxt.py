@@ -102,15 +102,11 @@ class todotxt:
     def __get_pris(self, pris):
         pass
 
-    def show_prjs(self):
-        for prj in self.todos['prjs']:
-            print '+'+prj
-            i = 0
-            for tid in self.todos['prjs'][prj]:
-                print int(tid)+1, self.todos['list'][tid]
-                i += 1
-            print 'There are', i, 'tasks in', prj
-            print
+    def show_prjs(self, prjs=None, operator=None):
+        if ( prjs == None ):
+            prjs = self.__get_prjs()
+        tasks = self.__get_prjs_tasks(prjs, operator)
+        self.print_tasks(tasks, 'due')
 
     def show_tasks(self):
         i = 1
