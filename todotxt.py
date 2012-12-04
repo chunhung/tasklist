@@ -77,12 +77,24 @@ class todotxt:
                     tasks = tasks.union(self.todos['prjs'][prj])
         return tasks
 
-    def __get_dues(self, end_date):
+    def __get_dues(self, end_date=None):
+        if ( end_date != None ):
+            if ( end_date == 'today' ):
+                end_date = date_op.today()
+            else:
+                end_date = date_op.get_date(end_date)
+
         tasks = set()
-        today = date.today()
-        period = {'overdue':0, 'today':0, 'week':0, 'future':0}
+
         for key,value in sorted(self.todos['due'].iteritems(), key=lambda(k,v):(v,k)):
-            due_date = datetime.datetime.strptime(self.todos['due'][key], '%Y-%m-%d').date()
+            if ( end_date != None ):
+                due_date = date_op.get_date(self.todos['due'][key])
+                if ( date_op.compare(due_date, end_date) <= 0 ):
+                    tasks.add(key)
+            else:
+                tasks.add(key)
+
+        return tasks
 
     def __get_cons(self, cons):
         pass
