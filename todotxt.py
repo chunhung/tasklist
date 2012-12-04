@@ -130,3 +130,47 @@ class todotxt:
         f = open(self.todo_file, 'a')
         f.write(task)
         f.close() 
+
+    def print_tasks(self, tasks, ordered='due'):
+        if ( ordered == 'id' ):
+            for key in sorted(tasks):
+                print str(key+1).zfill(self.digits),self.todos['list'][key]
+        elif ( ordered == 'pri' ):
+            pass
+        elif ( ordered == 'due' ):
+            period = {'nodue':0, 'overdue':0, 'today':0, 'week':0, 'future':0}
+            due_dates = dict()
+            nodue_tasks = set()
+            for task in tasks:
+                if task in self.todos['due']:
+                    due_dates[task] = self.todos['due'][task]
+                else:
+                    nodue_tasks.add(task)
+                    period['nodue'] += 1
+            if ( period['nodue'] > 0 ):
+                print "\nNo Due Date"
+                self.print_tasks(nodue_tasks, 'id')
+            for key,value in sorted(due_dates.iteritems(), key=lambda(k,v):(v,k)):
+                due_date = self.todos['due'][key]
+                if ( date_op.before_today(due_date) ):
+                    if ( period['overdue'] == 0 ):
+                        print "\nOverdue"
+                    period['overdue'] += 1
+                elif ( date_op.equal_today(due_date) ):
+                    if ( period['today'] == 0 ):
+                        print "\nToday"
+                    period['today'] += 1
+                elif ( date_op.after_today(due_date) and date_op.compare(due_date, date_op.within(None, None, 7)) == -1 ):
+                    if ( period['week'] == 0):
+                        print "\nWithin a Week"
+                    period['week'] += 1
+                else:
+                    if ( period['future'] == 0 ):
+                        print "\nIn the future"
+                    period['future'] += 1
+                print str(key+1).zfill(self.digits),self.todos['list'][key]
+            print 'No Due Date: ', period['nodue'], ' Overdue: ', period['overdue'], ' Today: ', period['today'], ' This Week: ', period['week'], ' Week Away: ', period['future']
+        elif ( ordered == 'con' ):
+            pass
+        elif ( ordered == 'prj' ):
+            pass
