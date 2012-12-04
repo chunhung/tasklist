@@ -6,9 +6,10 @@ import time
 import date_op
 
 class todotxt:
-    filename = ''
+    todo_file = '/home/arnose/Dropbox/todotxt/todo.txt'
+    done_file = '/home/arnose/Dropbox/todotxt/done.txt'
     def read_file(self):
-        with open(self.filename, 'r') as f:
+        with open(self.todo_file, 'r') as f:
             lines = f.read().splitlines()
             
         prj_pattern = re.compile('(?<=\ \+)[A-Za-z0-9]*')
