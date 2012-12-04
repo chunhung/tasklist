@@ -123,8 +123,8 @@ class todotxt:
                 next_due = date_op.add(due_date, None, 1, None)
             elif ( recur[0] == 'biweekly' ):
                 next_due = date_op.add(due_date, None, None, 14)
-        print 'Do', self.todos['list'][tid]
-        print recur, due_date, next_due
+            new_task = self.todos['list'][tid].replace(due_date, next_due)
+            print new_task
 
     def add_task(self, task):
         f = open(self.todo_file, 'a')
