@@ -125,9 +125,11 @@ class todotxt:
             print 'The number of tasks is', len(self.todos['list'])
             print 'Invalid task id'
             quit()
-        recur = re.findall('(?<=\ \*)[A-Za-z]*', self.todos['list'][tid]);
+        recur_pattern = self.get_pattern('recur')
+        recur = recur_pattern.findall(self.todos['list'][tid])
         due_date = self.todos['due'][tid] if tid in self.todos['due'] else None
         next_due = None
+        print 'x', date_op.today(), self.todos['list'][tid]
         if ( len(recur) > 0 ):
             if ( recur[0] == 'bimonthly' ):
                 next_due = date_op.add(due_date, None, 2, None)
