@@ -99,6 +99,8 @@ class todotxt:
     def __get_cons(self, cons):
         pass
 
+    def __get_pris(self, pris):
+        pass
 
     def show_prjs(self):
         for prj in self.todos['prjs']:
