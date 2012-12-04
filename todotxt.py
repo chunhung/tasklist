@@ -8,6 +8,18 @@ import date_op
 class todotxt:
     todo_file = '/home/arnose/Dropbox/todotxt/todo.txt'
     done_file = '/home/arnose/Dropbox/todotxt/done.txt'
+    def get_pattern(self, pattern_type):
+        if ( pattern_type == 'prj' ):
+            return re.compile('(?<=\ \+)[A-Za-z0-9]*')
+        elif ( pattern_type == 'due' ):
+            return re.compile('(?<=\ \^)[0-9]{4}-[0-1][0-9]-[0-3][0-9]')
+        elif ( pattern_type == 'con' ):
+            return re.compile('(?<=\ \@)[A-Za-z0-9]*')
+        elif ( pattern_type == 'recur' ):
+            return re.compile('(?<=\ \*)[A-Za-z]*')
+        elif ( pattern_type == 'pri' ):
+            return re.compile('^\([A-Z]*\)')
+
     def read_file(self):
         with open(self.todo_file, 'r') as f:
             lines = f.read().splitlines()
