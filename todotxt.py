@@ -8,6 +8,7 @@ import date_op
 class todotxt:
     todo_file = '/home/arnose/Dropbox/todotxt/todo.txt'
     done_file = '/home/arnose/Dropbox/todotxt/done.txt'
+    digits = 2
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
             return re.compile('(?<=\ \+)[A-Za-z0-9]*')
