@@ -25,16 +25,19 @@ class todotxt:
         with open(self.todo_file, 'r') as f:
             lines = f.read().splitlines()
             
-        prj_pattern = re.compile('(?<=\ \+)[A-Za-z0-9]*')
-        due_pattern = re.compile('(?<=\ \^)[0-9]{4}-[0-1][0-9]-[0-3][0-9]');
-        con_pattern = re.compile('(?<=\ \@)[A-Za-z0-9]*')
-        prj_dict = dict();
-        due_dict = dict();
-        con_dict = dict();
+        prj_pattern = self.get_pattern('prj')
+        due_pattern = self.get_pattern('due')
+        con_pattern = self.get_pattern('con')
+        pri_pattern = self.get_pattern('pri')
+        prj_dict = dict()
+        due_dict = dict()
+        con_dict = dict()
+        pri_dict = dict()
         for i, line in enumerate(lines):
             prjs = prj_pattern.findall(line) # Use sets for storing projects 
             dues = due_pattern.findall(line) # Array
             cons = con_pattern.findall(line)
+            pris = pri_pattern.findall(line)
             for prj in prjs:
                 if prj not in prj_dict:
                     prj_dict[prj] = set()
@@ -45,8 +48,16 @@ class todotxt:
                 con_dict[cont].add(i)
             for due in dues:
                 due_dict[i] = due
+            for pri in pris:
+                pri_dict[i] = pri
 
-        self.todos = {'list':lines, 'prjs':prj_dict, 'due':due_dict}
+        self.todos = {'list':lines, 'prjs':prj_dict, 'due':due_dict, 'pri':pri_dict}
+        total = len(lines)
+        digits = 1
+        while ( total >= 10 ):
+            total /= 10
+            digits += 1
+        self.digits = digits
 
     def __get_prjs(self, prjs, operator=None):
         tasks = set()
