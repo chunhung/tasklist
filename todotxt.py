@@ -109,42 +109,15 @@ class todotxt:
         self.print_tasks(tasks, 'due')
 
     def show_tasks(self):
-        i = 1
-        for task in self.todos['list']:
-            print i, task
-            i += 1
+        self.print_tasks(self.__get_prjs_tasks(), 'due')
 
     def show_dues(self, end_date=None):
-        period = {'overdue':0, 'today':0, 'week':0, 'future':0}
-        for key,value in sorted(self.todos['due'].iteritems(), key=lambda(k,v):(v,k)):
-            due_date = self.todos['due'][key]
-            if ( date_op.before_today(due_date) ):
-                if ( period['overdue'] == 0 ):
-                    print "\nOverdue"
-                period['overdue'] += 1
-            elif ( date_op.equal_today(due_date) ):
-                if ( period['today'] == 0 ):
-                    if ( end_date == 'overdue' ):
-                        break
-                    else:
-                        print "\nToday"
-                period['today'] += 1
-            elif ( date_op.after_today(due_date) and date_op.compare(due_date, date_op.within(None, None, 7)) == -1 ):
-                if ( period['week'] == 0):
-                    if ( end_date == 'today' ):
-                        break;
-                    else:
-                        print "\nWithin a Week"
-                period['week'] += 1
-            else:
-                if ( period['future'] == 0 ):
-                    if ( end_date == 'week' ):
-                        break;
-                    else:
-                        print "\nIn the future"
-                period['future'] += 1
-            print key+1,self.todos['list'][key]
-        print 'Overdue: ', period['overdue'], ' Today: ', period['today'], ' This Week: ', period['week'], ' Week Away: ', period['future']
+        # TODO
+        # We need to verify end_date is a valid string format for date
+        # It is better to support only month and day as the same year is assumed
+        # when the month and day is after today
+
+        self.print_tasks(self.__get_dues(end_date))
 
     def do_sth(self, tid):
         tid = int(tid)-1
