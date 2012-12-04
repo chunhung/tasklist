@@ -59,17 +59,22 @@ class todotxt:
             digits += 1
         self.digits = digits
 
-    def __get_prjs(self, prjs, operator=None):
+    def __get_prjs(self):
+        return self.todos['prjs']
+
+    def __get_prjs_tasks(self, prjs=None, operator=None):
         tasks = set()
+        if ( prjs == None ):
+            prjs = self.__get_prjs()
         for prj in prjs:
             if ( len(self.todos['prjs'][prj]) > 0 ):
                 if ( operator == 'inter' ):
                     if ( len(tasks) == 0 ):
                         tasks = self.todos['prjs'][prj]
                     else:
-                        tasks.intersection(self.todos['prjs'][prj])
+                        tasks = tasks.intersection(self.todos['prjs'][prj])
                 else: # union or one prj only
-                    tasks.union(self.todos['prjs'][prj])
+                    tasks = tasks.union(self.todos['prjs'][prj])
         return tasks
 
     def __get_dues(self, end_date):
