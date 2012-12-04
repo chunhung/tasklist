@@ -127,6 +127,6 @@ class todotxt:
         print recur, due_date, next_due
 
     def add_task(self, task):
-        f = open(self.filename, 'a')
+        f = open(self.todo_file, 'a')
         f.write(task)
         f.close() 
