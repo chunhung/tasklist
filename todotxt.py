@@ -1,5 +1,3 @@
-import sys
-
 from task_view import task_view
 from task_db import task_db
 
@@ -34,25 +32,8 @@ class todotxt:
             print 'The number of tasks is', self.task_db.get_num_tasks()
             print 'Invalid task id'
             quit()
-        recur = self.task_db.is_recur(tid)
-        due_date = self.task_db.get_due(tid)
-        next_due = None
-        print 'x', date_op.today(), self.task_db.get_task(tid)
-        if ( recur != None ):
-            if ( recur == 'bimonthly' ):
-                next_due = date_op.add(due_date, None, 2, None)
-            elif ( recur == 'monthly' ):
-                next_due = date_op.add(due_date, None, 1, None)
-            elif ( recur == 'biweekly' ):
-                next_due = date_op.add(due_date, None, None, 14)
 
-            new_task = self.task_db.replace_task(tid, due_date, next_due)
-            print new_task
-
-    def add_task(self, task):
-        f = open(self.todo_file, 'a')
-        f.write(task)
-        f.close() 
+        self.task_db.do_task(tid)
 
     def print_tasks(self, tasks, order='due'):
         self.task_view.printout(tasks, order, self.task_db)

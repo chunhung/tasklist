@@ -31,6 +31,56 @@ class task_db:
         recur = recur_pattern.findall(self.todos['list'][tid])
         return recur[0] if ( len(recur) > 0 ) else None
 
+    def do_task(self, tid):
+        recur = self.is_recur(tid)
+        due_date = self.get_due(tid)
+        next_due = None
+
+        self.__task_done(tid)
+
+        if ( recur != None ):
+            if ( recur == 'bimonthly' ):
+                next_due = date_op.add(due_date, None, 2, None)
+            elif ( recur == 'monthly' ):
+                next_due = date_op.add(due_date, None, 1, None)
+            elif ( recur == 'biweekly' ):
+                next_due = date_op.add(due_date, None, None, 14)
+
+            new_task = self.replace_task(tid, due_date, next_due)
+            self.add_task(new_task)
+
+    def __task_done(self, tid):
+        done = 'x ' + str(date_op.today()) + ' ' + self.get_task(tid)
+
+
+        #f = open(self.done_file, 'a')
+        #f.write(done)
+        #f.close()
+        print done
+
+    def add_task(self, task):
+        f = open(self.todo_file, 'a')
+        f.write(task)
+        f.close()
+        # Added task needs to be updated in todos
+        task_prop = self.__parse_task(line)
+        tid = len(todos['list'])
+        for prj in prjs:
+            if prj not in todos['prjs']:
+                todos['prjs'][prj] = set()
+            todos['prjs'][prj].add(tid)
+        for con in task_prop['cons']:
+            if con not in todos['cons']:
+                todos['cons'][con] = set()
+            todos['cons'][con].add(tid)
+        for due in task_prop['dues']:
+            todos['dues'][tid] = due
+        for pri in task_prop['pris']:
+            todos['pris'][tid] = pri
+        todos['list'].add(task)
+        if ( 10**(self.digits-1) < tid ):
+            digits += 1
+
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
             return re.compile('(?<=\ \+)[A-Za-z0-9]*')
@@ -43,34 +93,39 @@ class task_db:
         elif ( pattern_type == 'pri' ):
             return re.compile('^\([A-Z]*\)')
     
-    def read_file(self):
-        with open(self.todo_file, 'r') as f:
-            lines = f.read().splitlines()
-            
+    def __parse_task(self, task):
         prj_pattern = self.get_pattern('prj')
         due_pattern = self.get_pattern('due')
         con_pattern = self.get_pattern('con')
         pri_pattern = self.get_pattern('pri')
+        prjs = prj_pattern.findall(task) # Use sets for storing projects 
+        dues = due_pattern.findall(task) # Array
+        cons = con_pattern.findall(task)
+        pris = pri_pattern.findall(task)
+
+        return {'prjs':prjs, 'dues':dues, 'cons':cons, 'pris':pris}
+
+    def read_file(self):
+        with open(self.todo_file, 'r') as f:
+            lines = f.read().splitlines()
+            
         prj_dict = dict()
         due_dict = dict()
         con_dict = dict()
         pri_dict = dict()
         for i, line in enumerate(lines):
-            prjs = prj_pattern.findall(line) # Use sets for storing projects 
-            dues = due_pattern.findall(line) # Array
-            cons = con_pattern.findall(line)
-            pris = pri_pattern.findall(line)
-            for prj in prjs:
+            task_prop = self.__parse_task(line)
+            for prj in task_prop['prjs']:
                 if prj not in prj_dict:
                     prj_dict[prj] = set()
                 prj_dict[prj].add(i)
-            for con in cons:
+            for con in task_prop['cons']:
                 if con not in con_dict:
                     con_dict[con] = set()
                 con_dict[cont].add(i)
-            for due in dues:
+            for due in task_prop['dues']:
                 due_dict[i] = due
-            for pri in pris:
+            for pri in task_prop['pris']:
                 pri_dict[i] = pri
 
         self.todos = {'list':lines, 'prjs':prj_dict, 'due':due_dict, 'pri':pri_dict}
