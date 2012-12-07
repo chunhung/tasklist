@@ -1,6 +1,8 @@
 import sys
 import re
 
+import date_op
+
 class task_db:
     todo_file = '/home/arnose/Dropbox/todotxt/todo.txt'
     done_file = '/home/arnose/Dropbox/todotxt/done.txt'
@@ -10,11 +12,25 @@ class task_db:
         self.read_file()
 
     def get_task(self, tid):
-        return self.todos['list'][tid]
+        return self.todos['list'][tid] if ( tid < len(self.todos['list']) ) else None
 
     def get_digits(self):
         return self.digits
-        
+    
+    def get_due(self, tid):
+        return self.todos['due'][tid] if ( tid in self.todos['due'] ) else None
+
+    def get_num_tasks(self):
+        return len(self.todos['list'])
+
+    def replace_task(self, tid, due_date, next_due):
+        return self.todos['list'][tid].replace(due_date, next_due)
+
+    def is_recur(self, tid):
+        recur_pattern = self.get_pattern('recur')
+        recur = recur_pattern.findall(self.todos['list'][tid])
+        return recur[0] if ( len(recur) > 0 ) else None
+
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
             return re.compile('(?<=\ \+)[A-Za-z0-9]*')
@@ -65,15 +81,15 @@ class task_db:
             digits += 1
         self.digits = digits
 
-        def __get_prjs(self):
+    def get_prjs(self):
         return self.todos['prjs']
 
-    def __get_prjs_tasks(self, prjs=None, operator=None):
+    def get_prjs_tasks(self, prjs=None, operator=None):
         tasks = set()
         if ( prjs == None ):
-            prjs = self.__get_prjs()
+            prjs = self.get_prjs()
         for prj in prjs:
-            if ( len(self.todos['prjs'][prj]) > 0 ):
+            if ( (prj in self.todos['prjs']) and len(self.todos['prjs'][prj]) > 0 ):
                 if ( operator == 'inter' ):
                     if ( len(tasks) == 0 ):
                         tasks = self.todos['prjs'][prj]
@@ -83,7 +99,7 @@ class task_db:
                     tasks = tasks.union(self.todos['prjs'][prj])
         return tasks
 
-    def __get_dues(self, end_date=None):
+    def get_dues(self, end_date=None):
         if ( end_date != None ):
             if ( end_date == 'today' ):
                 end_date = date_op.today()
