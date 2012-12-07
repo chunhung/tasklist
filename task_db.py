@@ -4,8 +4,8 @@ import re
 import date_op
 
 class task_db:
-    todo_file = '/home/arnose/Dropbox/todotxt/todo.txt'
-    done_file = '/home/arnose/Dropbox/todotxt/done.txt'
+    todo_file = './todo.txt'
+    done_file = './done.txt'
     digits = 2
 
     def __init__(self, conf=None):
