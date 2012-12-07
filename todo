@@ -6,7 +6,7 @@ from todotxt import todotxt
 
 todotxt = todotxt()
 
-commands = {'due', 'prjs', 'do', 'ls', 'add'}
+commands = {'due', 'prjs', 'do', 'ls', 'add', 'done'}
 
 if ( len(sys.argv) > 1 and sys.argv[1] in commands ):
     if ( sys.argv[1] == 'due' ):
@@ -31,8 +31,9 @@ if ( len(sys.argv) > 1 and sys.argv[1] in commands ):
         task = ''
         for i in range(2, len(sys.argv)):
             task += sys.argv[i]+' '
-        print task
-        #todotxt.add_task(task)
+        todotxt.add_task(task)
+    elif ( sys.argv[1] == 'done' ):
+        todotxt.show_done()
 else:
     print 'available commands are:'
     for command in commands:

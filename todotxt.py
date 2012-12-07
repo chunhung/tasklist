@@ -26,6 +26,10 @@ class todotxt:
         # when the month and day is after today
         self.print_tasks(self.task_db.get_dues(end_date))
 
+    def show_done(self):
+        for line in self.task_db.get_done():
+            print line
+
     def do_sth(self, tid):
         tid = int(tid)-1
         if ( self.task_db.get_task(tid) == None ):

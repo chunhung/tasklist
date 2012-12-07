@@ -50,11 +50,19 @@ class task_db:
             self.add_task(new_task)
 
     def __task_done(self, tid):
-        done = 'x ' + str(date_op.today()) + ' ' + self.get_task(tid)
+        task = self.get_task(tid)
+        done = 'x ' + str(date_op.today()) + ' ' + task
 
         f = open(self.done_file, 'a')
         f.write(done+'\n')
         f.close()
+
+        f = open(self.todo_file, 'w')
+        for line in self.todos['list']:
+            if ( task in line ):
+                pass
+            else:
+                f.write(line+'\n')
 
     def add_task(self, task):
         f = open(self.todo_file, 'a')
@@ -151,6 +159,11 @@ class task_db:
                 else: # union or one prj only
                     tasks = tasks.union(self.todos['prjs'][prj])
         return tasks
+
+    def get_done(self):
+        with open(self.done_file, 'r') as f:
+            lines = f.read().splitlines()
+        return lines
 
     def get_dues(self, end_date=None):
         if ( end_date != None ):
