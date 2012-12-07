@@ -53,9 +53,8 @@ class task_db:
         done = 'x ' + str(date_op.today()) + ' ' + self.get_task(tid)
 
         f = open(self.done_file, 'a')
-        f.write(done)
+        f.write(done+'\n')
         f.close()
-        print done
 
     def add_task(self, task):
         f = open(self.todo_file, 'a')
