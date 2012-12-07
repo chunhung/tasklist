@@ -52,34 +52,33 @@ class task_db:
     def __task_done(self, tid):
         done = 'x ' + str(date_op.today()) + ' ' + self.get_task(tid)
 
-
-        #f = open(self.done_file, 'a')
-        #f.write(done)
-        #f.close()
+        f = open(self.done_file, 'a')
+        f.write(done)
+        f.close()
         print done
 
     def add_task(self, task):
         f = open(self.todo_file, 'a')
-        f.write(task)
+        f.write(task+'\n')
         f.close()
         # Added task needs to be updated in todos
-        task_prop = self.__parse_task(line)
-        tid = len(todos['list'])
-        for prj in prjs:
-            if prj not in todos['prjs']:
-                todos['prjs'][prj] = set()
-            todos['prjs'][prj].add(tid)
+        task_prop = self.__parse_task(task)
+        tid = len(self.todos['list'])
+        for prj in task_prop['prjs']:
+            if prj not in self.todos['prjs']:
+                self.todos['prjs'][prj] = set()
+            self.todos['prjs'][prj].add(tid)
         for con in task_prop['cons']:
-            if con not in todos['cons']:
-                todos['cons'][con] = set()
-            todos['cons'][con].add(tid)
+            if con not in self.todos['cons']:
+                self.todos['cons'][con] = set()
+            self.todos['cons'][con].add(tid)
         for due in task_prop['dues']:
-            todos['dues'][tid] = due
+            self.todos['due'][tid] = due
         for pri in task_prop['pris']:
-            todos['pris'][tid] = pri
-        todos['list'].add(task)
+            self.todos['pri'][tid] = pri
+        self.todos['list'].append(task)
         if ( 10**(self.digits-1) < tid ):
-            digits += 1
+            self.digits += 1
 
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
