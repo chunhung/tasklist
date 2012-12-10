@@ -9,8 +9,10 @@ def add(__date, __year=None, __month=None, __day=None):
         __date = __date.replace(year=__date.year+abs(int(__year)))
 
     if ( __month != None ):
-        if ( abs(int(__month)) > 11 ):
-            __month = 11
+        if ( int(__month)/12 > 0 ):
+            year = int(__month)/12
+            add(__date, year, None, None)
+            __month = __month - year * 12
         if ( __date.month + abs(int(__month)) > 12 ):
             __date = __date.replace(year=__date.year+1, month=__date.month+abs(int(__month))-12)
         else:
