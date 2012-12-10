@@ -30,6 +30,9 @@ class todotxt:
         for line in self.task_db.get_done():
             print line
 
+    def add_task(self, task):
+        self.task_db.add_task(task)
+
     def do_sth(self, tid):
         tid = int(tid)-1
         if ( self.task_db.get_task(tid) == None ):
