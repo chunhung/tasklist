@@ -52,7 +52,7 @@ def after_today(__date):
     return True if ( compare_today(__date) == 1) else False
 
 def today():
-    return date.today()
+    return datetime.datetime.strftime(date.today(), '%Y-%m-%d')
 
 def get_date(__date):
     return datetime.datetime.strptime(__date, '%Y-%m-%d').date()

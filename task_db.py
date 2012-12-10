@@ -66,10 +66,14 @@ class task_db:
                 f.write(line+'\n')
 
     def add_task(self, task):
+        task = self.__get_date_pattern(task)
         f = open(self.todo_file, 'a')
         f.write(task+'\n')
         f.close()
 
+        # Following operations are not needed if todo is called every time
+        # However, if the todo is a recursive operation waiting for command
+        # It is necessary to update the memory information
         task_prop = self.__parse_task(task)
         tid = len(self.todos['list'])
         for prj in task_prop['prjs']:
@@ -87,6 +91,20 @@ class task_db:
         self.todos['list'].append(task)
         if ( 10**(self.digits-1) < tid ):
             self.digits += 1
+
+    def __get_date_pattern(self, task):
+        today = date_op.today()
+        date_pattern = {
+            'today':today,
+            'next week':date_op.add(today, None, None, 7),
+            'next month':date_op.add(today, None, 1, None),
+            'next year':date_op.add(today, 1, None, None)}
+        for key in date_pattern.keys():
+            value = date_pattern[key]
+            replace = re.sub('\ '+key+'\ ', '\ '+value+'\ ', task)
+            if ( replace != task ):
+                return replace
+                break
 
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
