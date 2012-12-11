@@ -194,8 +194,8 @@ class task_db:
                 end_date = date_op.add(today, None, None, 6)
             elif ( 'month' in end_date ):
                 end_date = date_op.add(today, None, 1, None)
-        else:
-            end_date = date_op.get_date(end_date)
+            else:
+                end_date = date_op.get_date(end_date)
 
         tasks = set()
 
