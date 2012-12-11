@@ -187,10 +187,15 @@ class task_db:
 
     def get_dues(self, end_date=None):
         if ( end_date != None ):
+            today = date_op.today()
             if ( end_date == 'today' ):
-                end_date = date_op.today()
-            else:
-                end_date = date_op.get_date(end_date)
+                end_date = today
+            elif ( 'week' in end_date ):
+                end_date = date_op.add(today, None, None, 6)
+            elif ( 'month' in end_date ):
+                end_date = date_op.add(today, None, 1, None)
+        else:
+            end_date = date_op.get_date(end_date)
 
         tasks = set()
 
