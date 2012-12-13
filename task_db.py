@@ -101,10 +101,10 @@ class task_db:
             'next year':date_op.add(today, 1, None, None)}
         for key in date_pattern.keys():
             value = date_pattern[key]
-            replace = re.sub('\ '+key+'\ ', '\ '+value+'\ ', task)
+            replace = re.sub('\^'+key+' ', '^'+value+' ', task)
             if ( replace != task ):
-                return replace
                 break
+        return replace
 
     def get_pattern(self, pattern_type):
         if ( pattern_type == 'prj' ):
