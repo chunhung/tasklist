@@ -6,7 +6,7 @@ from todotxt import todotxt
 
 todotxt = todotxt()
 
-commands = {'due', 'prjs', 'do', 'ls', 'add', 'done'}
+commands = {'due', 'prjs', 'do', 'ls', 'add', 'done', 'update'}
 
 if ( len(sys.argv) > 1 and sys.argv[1] in commands ):
     if ( sys.argv[1] == 'due' ):
@@ -34,7 +34,9 @@ if ( len(sys.argv) > 1 and sys.argv[1] in commands ):
         todotxt.add_task(task)
     elif ( sys.argv[1] == 'done' ):
         todotxt.show_done()
+    elif ( sys.argv[1] == 'update' ):
+        print 'Not implemented yet'
 else:
-    print 'available commands are:'
+    print 'Available commands are:'
     for command in commands:
         print command
