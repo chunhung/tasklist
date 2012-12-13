@@ -165,6 +165,9 @@ class task_db:
     def get_prjs(self):
         return self.todos['prjs']
 
+    def get_all_tasks(self):
+        return range(len(self.todos['list']))
+
     def get_prjs_tasks(self, prjs=None, operator=None):
         tasks = set()
         if ( prjs == None ):

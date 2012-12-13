@@ -17,7 +17,8 @@ class todotxt:
         self.print_tasks(tasks, 'due')
 
     def show_tasks(self):
-        self.print_tasks(self.task_db.get_prjs_tasks(), 'id')
+        #self.print_tasks(self.task_db.get_prjs_tasks(), 'id')
+        self.print_tasks(self.task_db.get_all_tasks(), 'id')
 
     def show_dues(self, end_date=None):
         # TODO
