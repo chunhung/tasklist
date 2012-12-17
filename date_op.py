@@ -36,6 +36,10 @@ def this_month():
     days = days_in_month[month]
     return datetime.datetime.strftime(date.today().replace(day=days), '%Y-%m-%d')
 
+def this_week():
+    weekday = date.today().isoweekday()
+    return add(date.today(), None, None, 7-weekday)
+
 def compare(__date1, __date2):
     __date1 = get_date(__date1) if ( not isinstance(__date1, datetime.date) ) else __date1
     __date2 = get_date(__date2) if ( not isinstance(__date2, datetime.date) ) else __date2
