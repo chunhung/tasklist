@@ -10,8 +10,8 @@ commands = {'due', 'prjs', 'do', 'ls', 'add', 'done', 'update'}
 
 if ( len(sys.argv) > 1 and sys.argv[1] in commands ):
     if ( sys.argv[1] == 'due' ):
-        if ( len(sys.argv) == 3 ):
-            todotxt.show_dues(sys.argv[2])
+        if ( len(sys.argv) > 2 ):
+            todotxt.show_dues(' '.join(sys.argv[2:]))
         else:
             todotxt.show_dues()
     elif ( sys.argv[1] == 'prjs' ):

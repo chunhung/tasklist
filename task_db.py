@@ -193,6 +193,8 @@ class task_db:
             today = date_op.today()
             if ( end_date == 'today' ):
                 end_date = today
+            elif ( 'this month' in end_date ):
+                end_date = date_op.this_month()
             elif ( 'week' in end_date ):
                 end_date = date_op.add(today, None, None, 6)
             elif ( 'month' in end_date ):

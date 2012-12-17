@@ -31,6 +31,11 @@ def add(__date, __year=None, __month=None, __day=None):
 
     return datetime.datetime.strftime(__date, '%Y-%m-%d')
 
+def this_month():
+    month = date.today().month
+    days = days_in_month[month]
+    return datetime.datetime.strftime(date.today().replace(day=days), '%Y-%m-%d')
+
 def compare(__date1, __date2):
     __date1 = get_date(__date1) if ( not isinstance(__date1, datetime.date) ) else __date1
     __date2 = get_date(__date2) if ( not isinstance(__date2, datetime.date) ) else __date2
