@@ -20,6 +20,7 @@ Feature
 * Due Date
   * List the tasks in the sections of "Overdue", "Today", "Within the Week", and "In the Future"
   * Only list the tasks with the due dates which are "Overdue", or "Overdue" and "Today" or "Overdue", "Today", and "Within the Week"
+  * Users can specify the tasks will be due in this week(Sunday) or this month by 'due this week' and 'due this month'
 * Recursive
   * When "Do" something and if it is recursive, the new task will be added with the due date plus the interval, such as, "yearly", "bimonthly", "monthly", "biweekly", and "weekly".
 * Project
@@ -30,4 +31,3 @@ Feature
 
 Todo
 ====
-* Remove done tasks and move done tasks to done.txt
