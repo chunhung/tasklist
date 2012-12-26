@@ -25,7 +25,9 @@ def add(__date, __year=None, __month=None, __day=None):
         days_in_month[2] = 29 if ( __date.year%4 == 0 and __date.month == 2 ) else 28
 
         if ( __date.day + abs(int(__day)) > days_in_month[__date.month] ):
-            __date = __date.replace(month=__date.month+1, day=__date.day+abs(int(__day))-days_in_month[__date.month])
+            month  = 1 if ( __date.month + 1 > 12 ) else __date.month
+            year = __date.year + 1 if ( __date.month + 1 > 12 ) else __date.year
+            __date = __date.replace(year=year, month=month, day=__date.day+abs(int(__day))-days_in_month[__date.month])
         else:
             __date = __date.replace(day=__date.day+abs(int(__day)))
 
